@@ -16,14 +16,14 @@ For usage example look into ``pywrappers/example.py``. Users of c++ are surely h
 ```python
 import gltext
 
-tx = gltext.GLText("../data/font_proggy_opti_small.txt")
+tx = gltext.GLText(b"../data/font_proggy_opti_small.txt")
 # init your opengl window here. important to do it before tx.init()
 tx.init()
 
 # draw white text on half-transparent black background
-tx.drawbr("anchored from bottom-right", 100, 100, fgcolor=(1.,1.,1.,1.), bgcolor=(0.,0.,0.,0.5), z=1000.)
-tx.drawtl("anchored from top-left", 100, 100)
-tx.drawtl("below previous line", 100, 100 + tx.height)
+tx.drawbr(b"anchored from bottom-right", 100, 100, fgcolor=(1.,1.,1.,1.), bgcolor=(0.,0.,0.,0.5), z=1000.)
+tx.drawtl(b"anchored from top-left", 100, 100)
+tx.drawtl(b"below previous line", 100, 100 + tx.height)
 ```
 
 The whole API:
@@ -49,23 +49,23 @@ self.bgcolor = (1.0, 1.0, 1.0, 0.0)
 #   then text background rendering is turned off.
 
 def init(self):
-def width(self, text): """ return string width in pixels """
+def width(self, text_bytes): """ return string width in pixels """
 # top
-def drawtl(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawtr(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawtm(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawtl(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawtr(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawtm(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
 # bottom
-def drawbl(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawbr(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawbm(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawbl(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawbr(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawbm(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
 # middle
-def drawml(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawmr(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawmm(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawml(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawmr(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawmm(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
 # baseline
-def drawbll(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawblr(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
-def drawblm(self, text, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawbll(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawblr(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
+def drawblm(self, text_bytes, x, y, fgcolor=None, bgcolor=None, z=None):
 ```
 
 
@@ -82,9 +82,11 @@ Should not be necessary as because ``pywrappers/gltext/`` should already contain
 And now copy the built shared library wherever it's needed.
 
 
-### Windows 8.1
+### Windows
 
-Tested with Visual C++ 2012 Express, Python 2.7.3 64 bit
+Currently untested and missing compiled wrapper
+
+Visual C++ 2012 Express
 
     run cmd.exe
     set VS90COMNTOOLS=%VS110COMNTOOLS%
@@ -94,7 +96,7 @@ Tested with Visual C++ 2012 Express, Python 2.7.3 64 bit
 
 ### Mac OS X
 
-Yosemite works without problems.
+Catalina works without problems with Python 3.9.9.
 
 Mountain Lion - to prevent errors like this:
 
@@ -107,11 +109,19 @@ disable ppc support:
 
     export ARCHFLAGS="-arch i386 -arch x86_64"; python setup.py build
 
+### Linux
+
+Tested with Debian 11/bullseye, Python 3.8.3
+
+If compilation fails due to missing gl.h or glu.h header file then
+
+    apt-get install libgl-dev libglu1-mesa-dev
+
 
 Third-party libraries
 ---------------------
 
-Uses [stb_image](http://nothings.org) for image loading.  
+Uses [stb_image](http://nothings.org) for image loading.
 Uses the [Fluid Studios](http://www.paulnettle.com/) FontGen tool to generate font textures (``tools/Fluid_Studios_Font_Generation_Tool.zip``).
 
 
@@ -119,6 +129,6 @@ Uses the [Fluid Studios](http://www.paulnettle.com/) FontGen tool to generate fo
 
 Random notes
 
-`python setup.py build > log.txt 2>&1`  
+`python setup.py build > log.txt 2>&1`
 `python setup.py build -c mingw32 > log.txt 2>&1`
 
