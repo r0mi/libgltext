@@ -33,7 +33,7 @@ class GLText:
             self.x = 1
             self.y += self.line_h + 1
             self.line_h = 0
-        if self.y + h + 1 > ih: raise RuntimeError, "ERROR! image_out too small"
+        if self.y + h + 1 > ih: raise RuntimeError("ERROR! image_out too small")
 
         self.image_out.paste(i, (self.x, self.y, self.x + w, self.y + h))
 
@@ -45,10 +45,10 @@ class GLText:
     def open_images(self, in_filename, w, h):
 
         self.image_in = i = Image.open(in_filename)
-        print "info about '%s':" % in_filename, i.mode, i.size, i.format, i.info, i.getpixel((256,128))
+        print("info about '%s':" % in_filename, i.mode, i.size, i.format, i.info, i.getpixel((256, 128)))
         assert w == i.size[0] and h == i.size[1]
 
-        self.image_out = Image.new(i.mode, (self.w, self.h), (0,0,0,0))
+        self.image_out = Image.new(i.mode, (self.w, self.h), (0, 0, 0, 0))
         #self.image_out.show()
 
 
@@ -75,7 +75,7 @@ class GLText:
         for i in range(256):
             line = f.readline().split(" ")
             # ascii, char_x, char_y, byteWidth, byteHeight, xOffset, yOffset, screenWidth, screenHeight
-            if i != int(line[0]): raise ValueError, "font loading error"
+            if i != int(line[0]): raise ValueError("font loading error")
             x, y = (int(line[1]), int(line[2]))
             w, h = (int(line[3]), int(line[4]))
 
@@ -89,7 +89,7 @@ class GLText:
         line = line.split(" ")
 
         self.image_out.save(out_texture_filename)
-        print "wrote '%s' and '%s'" % (out_font_filename, out_texture_filename)
+        print("wrote '%s' and '%s'" % (out_font_filename, out_texture_filename))
 
 
 t = GLText()

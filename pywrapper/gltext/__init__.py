@@ -1,18 +1,16 @@
 import sys
 
-_64bit = sys.maxint == 0x7fffffffffffffff
+_64bit = sys.maxsize == 0x7fffffffffffffff
 
-if 0x2070000 <= sys.hexversion < 0x2080000:
-    if   sys.platform == "linux2" and _64bit:
-        from linux.py27_64.gltext import *
-    elif sys.platform == "linux2" and not _64bit:
-        from linux.py27_32.gltext import *
+if 0x3080300 <= sys.hexversion:
+    if   sys.platform == "linux" and _64bit:
+        from .linux.py3_64.gltext import *
     elif sys.platform == "darwin":
-        from macosx.py27.gltext import *
+        from .macosx.py3.gltext import *
     elif sys.platform == "win32":
-        from windows.py27.gltext import *
+        from .windows.py3.gltext import *
     else:
-        raise RuntimeError, "unsupported platform '%s'" % sys.platform
+        raise RuntimeError(f"Unsupported platform '{sys.platform}'")
 else:
-    print "error importing 'gltext' module: python version 2.7.x required. you have", sys.version
+    print(f"Error importing 'gltext' module: Python version 3.8.3+ required, you have {sys.version}")
     raise ImportError

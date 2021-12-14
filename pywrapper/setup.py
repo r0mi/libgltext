@@ -15,7 +15,7 @@ if sys.platform == "darwin":
     #include_dirs = ["/usr/local/include"]
 elif sys.platform == "win32":
     libraries = ["OpenGL32"]
-elif sys.platform == "linux2":
+elif sys.platform == "linux":
     pass
 else:
     raise RuntimeError("platform %s not supported" % (sys.platform))
@@ -62,7 +62,7 @@ if "clean" in sys.argv:
     import os
     import shutil
     for p in ["gltext.cpp"]:
-        print "deleting", p
+        print("deleting", p)
         try:    os.remove(p)
         except: pass
     shutil.rmtree("build", True)

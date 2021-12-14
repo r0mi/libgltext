@@ -204,7 +204,7 @@ class GLText:
             c = GLTexChar()
             line = f.readline().split(" ")
             # ascii, char_x, char_y, byteWidth, byteHeight, xOffset, yOffset, screenWidth, screenHeight
-            if i != int(line[0]): raise ValueError, "font loading error"
+            if i != int(line[0]): raise ValueError("font loading error")
             tsx, tsy = self.texture_size
             # texture coordinates
             c.pos1 = ( float(line[1]) / tsx, \
@@ -222,7 +222,7 @@ class GLText:
             if c.pos1[0] > 1 or c.pos1[0] < 0 or \
                c.pos1[1] > 1 or c.pos1[1] < 0 or \
                c.pos2[0] > 1 or c.pos2[0] < 0 or \
-               c.pos2[1] > 1 or c.pos2[1] < 0: raise ValueError, "char out of texture bounds"
+               c.pos2[1] > 1 or c.pos2[1] < 0: raise ValueError("char out of texture bounds")
 
         line = f.readline().split(" ")
         self.ascender, self.descender, self.height = int(line[0]), int(line[1]), int(line[2])

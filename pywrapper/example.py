@@ -69,7 +69,7 @@ class Test:
                 logg.error("vsync failed completely. will munch cpu for lunch.")
 
         self._init_gl()
-        self.gltext = gltext.GLText("../data/font_proggy_opti_small.txt")
+        self.gltext = gltext.GLText(b"../data/font_proggy_opti_small.txt")
         self.gltext.init()
 
         # init done. start the mainloop!
@@ -102,7 +102,7 @@ class Test:
     def _render_frame(self, dt):
         self.fpscounter.tick(dt)
 
-        glClearColor(0.,0.,0.,1.)
+        glClearColor(0., 0., 0., 1.)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         w, h = self.w, self.h
@@ -110,16 +110,16 @@ class Test:
 
         t = time.time()
         for i in range(200):
-            tx.drawmm("day %03i" % i, w/2. + 250*math.sin(t*.1+i*0.1)*math.sin(t*.245+i*.01), h/2. + 180*math.cos(t*.1+i*0.01), fgcolor=(1., 1.0, 1.0, 1.0), bgcolor=(i/200., 0.4, 0.5, 1.))
+            tx.drawmm(b"day %03i" % i, w/2. + 250*math.sin(t*.1+i*0.1)*math.sin(t*.245+i*.01), h/2. + 180*math.cos(t*.1+i*0.01), fgcolor=(1., 1.0, 1.0, 1.0), bgcolor=(i/200., 0.4, 0.5, 1.))
 
-        tx.drawtl("top-left",     0, 0, fgcolor=(1., 1., 1., 1.0), bgcolor=(0., 0., 0., 0.), z=1000.)
-        tx.drawbl("bottom-left",  0, h)
-        tx.drawtr("top-right",    w, 0)
-        tx.drawbr("bottom-right", w, h)
+        tx.drawtl(b"top-left",     0, 0, fgcolor=(1., 1., 1., 1.0), bgcolor=(0., 0., 0., 0.), z=1000.)
+        tx.drawbl(b"bottom-left",  0, h)
+        tx.drawtr(b"top-right",    w, 0)
+        tx.drawbr(b"bottom-right", w, h)
 
-        tx.drawmm("middle", w / 2, h / 2, bgcolor=(.3, .4, .5, .5))
+        tx.drawmm(b"middle", w / 2, h / 2, bgcolor=(.3, .4, .5, .5))
 
-        tx.drawmm("fps: %i" % (self.fpscounter.fps), w / 2, h / 2 + tx.height, fgcolor=(1.0, 0.7, 0.7, 1.0), bgcolor=(0., 0., 0., 0.))
+        tx.drawmm(b"fps: %i" % (self.fpscounter.fps), w / 2, h / 2 + tx.height, fgcolor=(1.0, 0.7, 0.7, 1.0), bgcolor=(0., 0., 0., 0.))
 
     def _init_gl(self):
         glDisable(GL_TEXTURE_2D)
