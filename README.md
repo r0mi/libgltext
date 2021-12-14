@@ -130,5 +130,6 @@ Uses the [Fluid Studios](http://www.paulnettle.com/) FontGen tool to generate fo
 Random notes
 
 `python setup.py build > log.txt 2>&1`
+
 `python setup.py build -c mingw32 > log.txt 2>&1`
 
