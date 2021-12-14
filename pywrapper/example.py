@@ -14,6 +14,7 @@ import math
 
 from sdl2 import *
 from OpenGL.GL import *
+import ctypes
 
 import gltext
 #import gltext_pyopenglversion # uncomment if you want to test the python version of gltext lib.
@@ -52,7 +53,7 @@ class Test:
 
         window = SDL_CreateWindow(b"gltext test O_o", SDL_WINDOWPOS_UNDEFINED,
                                   SDL_WINDOWPOS_UNDEFINED, self.w, self.h,
-                                  SDL_WINDOW_OPENGL)
+                                  SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE)
         if not window:
             logg.error(SDL_GetError())
             return -1
@@ -67,6 +68,14 @@ class Test:
             if SDL_GL_SetSwapInterval(1):
                 logg.error("SDL_GL_SetSwapInterval: %s", SDL_GetError())
                 logg.error("vsync failed completely. will munch cpu for lunch.")
+
+        #Drawable size
+        drawable_w = ctypes.c_int()
+        drawable_h = ctypes.c_int()
+
+        SDL_GL_GetDrawableSize(window, ctypes.byref(drawable_w), ctypes.byref(drawable_h))
+        self.d_w = drawable_w.value
+        self.d_h = drawable_h.value
 
         self._init_gl()
         self.gltext = gltext.GLText(b"../data/font_proggy_opti_small.txt")
@@ -86,6 +95,11 @@ class Test:
                 if event.type == SDL_KEYDOWN:
                     if event.key.keysym.scancode == SDL_SCANCODE_ESCAPE:
                         running = False
+
+                if event.type == SDL_WINDOWEVENT:
+                    if event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED:
+                        SDL_GL_GetDrawableSize(window, ctypes.byref(drawable_w), ctypes.byref(drawable_h))
+                        glViewport(0, 0, drawable_w.value, drawable_h.value)
 
             t = time.time()
             self._render_frame(t - last_t)
@@ -136,7 +150,7 @@ class Test:
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         z_near, z_far = 101., 100000.
-        glViewport(0, 0, self.w, self.h)
+        glViewport(0, 0, self.d_w, self.d_h)
         glOrtho(0., self.w, self.h, 0., z_near, z_far)
 
         glMatrixMode(GL_MODELVIEW)
