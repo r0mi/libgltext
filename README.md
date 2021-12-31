@@ -111,7 +111,7 @@ disable ppc support:
 
 ### Linux
 
-Tested with Debian 11/bullseye, Python 3.8.3
+Tested with Debian 10/buster & 11/bullseye, Python 3.8.3
 
 If compilation fails due to missing gl.h or glu.h header file then
 
